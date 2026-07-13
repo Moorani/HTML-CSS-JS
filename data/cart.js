@@ -1,3 +1,5 @@
+
+
 export let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 
@@ -54,5 +56,13 @@ export function updateCartQuantity(productId, newQuantity) {
       cartItem.quantity = newQuantity;
     }
   })
+  saveToStorage();
+}
+
+export function updateDeliveryOptions(productId, deliveryOptionId){
+  const matchingItem = cart.find((cartItem) => cartItem.productId === productId);
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
+
   saveToStorage();
 }
