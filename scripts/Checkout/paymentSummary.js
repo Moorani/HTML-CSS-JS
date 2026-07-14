@@ -77,11 +77,5 @@ export function renderPaymentSummary() {
 
 
     document.querySelector('.js-payment-summary').innerHTML = paymentSummaryHTML;
-
-    console.log(formatMoney(productPriceCents));
-    console.log(shippingCostsCents);
-    console.log(totalPriceCentsWithoutTax);
-    console.log(estimatedTaxCents);
-    console.log(orderTotalPriceCents);
     
 }

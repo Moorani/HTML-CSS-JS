@@ -3,6 +3,7 @@ import { products } from "../../data/products.js";
 import { formatMoney } from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 
 export function renderOrderSummary() {
@@ -128,6 +129,7 @@ export function renderOrderSummary() {
             removeFromCart(deleteBtnId);
             document.querySelector(`.js-cart-item-container-${deleteBtnId}`).remove();
             document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
+            renderPaymentSummary();
             
         })
     });
@@ -154,6 +156,7 @@ export function renderOrderSummary() {
             document.querySelector(`.js-quantity-label-${saveLinkId}`).innerHTML = newQuantity;
             document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
             document.querySelector(`.js-cart-item-container-${saveLinkId}`).classList.remove('is-editing-quantity');
+            renderPaymentSummary();
         })
     });
 
@@ -171,6 +174,7 @@ export function renderOrderSummary() {
                 document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
                 document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
                 document.querySelector(`.js-cart-item-container-${productId}`).classList.remove('is-editing-quantity');
+                renderPaymentSummary();
             }
         })
     })
@@ -181,6 +185,7 @@ export function renderOrderSummary() {
             const {productId, deliveryOptionId} = inputOption.dataset;
             updateDeliveryOptions(productId, deliveryOptionId);
             renderOrderSummary();
+            renderPaymentSummary();
 
             // document.querySelector(`.js-delivery-date-${productId}`).innerHTML = `Delivery date: ${deliveryDate(deliveryOptionId)}`;
         })
