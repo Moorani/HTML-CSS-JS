@@ -24,7 +24,7 @@ export function renderPaymentSummary() {
 
         productPriceCents += matchingProduct.priceCents * cartItem.quantity;
 
-        let deliveryOption;
+        let deliveryOption = deliveryOptions[0];
         deliveryOptions.forEach((option) => {
             if (cartItem.deliveryOptionId === option.id) {
                 deliveryOption = option;
