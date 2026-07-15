@@ -4,6 +4,8 @@ import { formatMoney } from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
+import { calculateDeliveryDate } from "../../data/deliveryOptions.js";
 
 
 export function renderOrderSummary() {
@@ -31,16 +33,11 @@ export function renderOrderSummary() {
             }
         });
 
-        const today = dayjs();
-        const deliveryDate = today.add(deliveryOption.deliveryDays, 'Days');
-        const deliveryString = deliveryDate.format('dddd, MMMM D');
-
-
         checkOutHtml += 
         `
             <div class="cart-item-container js-cart-item-container-${matchingProductItem.id}">
                 <div class="delivery-date">
-                    Delivery date: ${deliveryString}
+                    Delivery date: ${calculateDeliveryDate(deliveryOption)}
                 </div>
 
                 <div class="cart-item-details-grid">
@@ -90,9 +87,6 @@ export function renderOrderSummary() {
         let deliveryHtml = '';
         deliveryOptions.forEach((option) => {
 
-            const today = dayjs();
-            const deliveryDate = today.add(option.deliveryDays, 'Days');
-            const deliveryString = deliveryDate.format('dddd, MMMM D');
 
             const priceInCents = option.priceCents === 0 ? 'FREE' : `$${formatMoney(option.priceCents)}`;
             const isChecked = cartItem.deliveryOptionId === option.id ? 'checked' : '';
@@ -107,7 +101,7 @@ export function renderOrderSummary() {
                     name="delivery-option-${matchingProductItem.id}">
                     <div>
                         <div class="delivery-option-date">
-                            ${deliveryString}
+                            ${calculateDeliveryDate(option)}
                         </div>
                         <div class="delivery-option-price">
                             ${priceInCents} - Shipping
@@ -121,14 +115,15 @@ export function renderOrderSummary() {
     }
         
     document.querySelector('.js-order-summary').innerHTML = checkOutHtml;
-    document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
+    renderCheckoutHeader();
 
     document.querySelectorAll('.js-delete-btn').forEach((deleteLink) => {
         deleteLink.addEventListener('click', () => {
             const {deleteBtnId} = deleteLink.dataset;
             removeFromCart(deleteBtnId);
-            document.querySelector(`.js-cart-item-container-${deleteBtnId}`).remove();
-            document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
+            renderOrderSummary();
+            // document.querySelector(`.js-cart-item-container-${deleteBtnId}`).remove();
+            // document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
             renderPaymentSummary();
             
         })
@@ -153,8 +148,9 @@ export function renderOrderSummary() {
             }
             updateCartQuantity(saveLinkId, newQuantity);
             
-            document.querySelector(`.js-quantity-label-${saveLinkId}`).innerHTML = newQuantity;
-            document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
+            //document.querySelector(`.js-quantity-label-${saveLinkId}`).innerHTML = newQuantity;
+            renderOrderSummary()
+            renderCheckoutHeader();
             document.querySelector(`.js-cart-item-container-${saveLinkId}`).classList.remove('is-editing-quantity');
             renderPaymentSummary();
         })
@@ -171,8 +167,10 @@ export function renderOrderSummary() {
                     return;
                 }
                 updateCartQuantity(productId, newQuantity);
-                document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
-                document.querySelector('.js-total-quantity').innerHTML = `${cartTotalQuantity()} items`;
+
+                //document.querySelector(`.js-quantity-label-${productId}`).innerHTML = newQuantity;
+                renderOrderSummary();
+                renderCheckoutHeader();
                 document.querySelector(`.js-cart-item-container-${productId}`).classList.remove('is-editing-quantity');
                 renderPaymentSummary();
             }

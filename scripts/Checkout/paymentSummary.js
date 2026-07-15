@@ -1,4 +1,4 @@
-import { cart } from "../../data/cart.js";
+import { cart, cartTotalQuantity } from "../../data/cart.js";
 import { products } from "../../data/products.js";
 import { formatMoney } from "../utils/money.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
@@ -12,7 +12,6 @@ export function renderPaymentSummary() {
     let orderTotalPriceCents = 0;
     
     cart.forEach((cartItem) => {
-        console.log(cartItem);
         const {productId} = cartItem;
 
         let matchingProduct;
@@ -46,7 +45,7 @@ export function renderPaymentSummary() {
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
+            <div>Items (${cartTotalQuantity()}):</div>
             <div class="payment-summary-money">$${formatMoney(productPriceCents)}</div>
           </div>
 
