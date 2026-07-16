@@ -15,10 +15,29 @@ export const deliveryOptions = [{
 }];
 
 
-
 export function calculateDeliveryDate(deliveryOption) {
     const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'Days');
+    
+
+    // skip weekends sat/sun
+    const selectedDeliveryDays = deliveryOption.deliveryDays;
+    
+    let count = 0;
+    let totalDeliveryDays = 0;
+
+    while(count < selectedDeliveryDays) {
+
+        totalDeliveryDays++;
+
+        const dayBeingChecked = today.add(totalDeliveryDays, 'days').format('dddd');
+
+        if(dayBeingChecked !== 'Saturday' && dayBeingChecked !== 'Sunday') {
+            count++;
+        }
+    }
+
+
+    const deliveryDate = today.add(totalDeliveryDays, 'Days');
     const deliveryString = deliveryDate.format('dddd, MMMM D');
 
     return deliveryString;
