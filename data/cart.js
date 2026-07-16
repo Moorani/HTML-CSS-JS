@@ -9,18 +9,16 @@ function saveToStorage() {
 }
 
 
-export function addToCart(productId) {
-  const QuantityElement = document.querySelector(`.js-product-quantity-${productId}`);
-  const productQuantityValue = Number(QuantityElement.value);
+export function addToCart(productId, quantity) {
   const matchingItem = cart.find((cartItem) => cartItem.productId === productId);
 
   if (matchingItem) {
-    matchingItem.quantity += productQuantityValue;
+    matchingItem.quantity += quantity;
   }
   else {
     cart.push({
       productId,
-      quantity: productQuantityValue,
+      quantity,
       deliveryOptionId: '1'
     });
   }

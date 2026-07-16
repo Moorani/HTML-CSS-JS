@@ -91,8 +91,10 @@ productsGridElement.innerHTML = productHtml;
 document.querySelectorAll('.js-add-to-cart-btn').forEach((addToCartButton) => {
   addToCartButton.addEventListener('click', () => {
     const {productId} = addToCartButton.dataset;
+    const QuantityElement = document.querySelector(`.js-product-quantity-${productId}`);
+    const productQuantityValue = Number(QuantityElement.value);
     
-    addToCart(productId);
+    addToCart(productId, productQuantityValue);
 
     addAddedMessage(productId);
 
