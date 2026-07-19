@@ -1,6 +1,6 @@
 import { formatMoney } from "../scripts/utils/money.js";
 
-class Products {
+class Product {
   id;
   image;
   name;
@@ -25,9 +25,29 @@ class Products {
     return `$${formatMoney(this.priceCents)}`;
   }
 
+   getSizeChartHtml() {
+    return '';
+  }
 
 
 }
+
+
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+
+  getSizeChartHtml() {
+    return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`;
+  }
+
+}
+
 
 
 
@@ -701,7 +721,12 @@ export const products = [
     priceCents: 2343
   }
 ].map((productDetails) => {
-  return new Products(productDetails);
+  if (productDetails.type === 'clothing') {
+    return new Clothing(productDetails);
+  }
+  return new Product(productDetails);
 });
+
+
 
 
