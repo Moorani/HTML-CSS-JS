@@ -62,6 +62,7 @@ export function loadProducts(func) {
       return new Product(productDetails);
     });
 
+    console.log('Products loaded.');
     func();
      
   });
