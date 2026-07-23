@@ -1,4 +1,4 @@
-import { cart, cartTotalQuantity } from "../../data/cart.js";
+import { cart, cartTotalQuantity, removeAllFromCart } from "../../data/cart.js";
 import { products } from "../../data/products.js";
 import { formatMoney } from "../utils/money.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";
@@ -100,6 +100,7 @@ export function renderPaymentSummary() {
           console.log('Unexpected error. try again later.');
       }
 
+      removeAllFromCart();
       window.location.href = 'orders.html';
       
       

@@ -1,5 +1,5 @@
-import { cart, removeFromCart, cartTotalQuantity, updateCartQuantity, updateDeliveryOptions} from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { cart, removeFromCart, cartTotalQuantity, updateCartQuantity, updateDeliveryOptions, loadCartFetch} from "../../data/cart.js";
+import { loadProductsFetch, products } from "../../data/products.js";
 import { formatMoney } from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { deliveryOptions } from "../../data/deliveryOptions.js";

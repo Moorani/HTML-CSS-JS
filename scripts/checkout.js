@@ -2,7 +2,7 @@ import { renderOrderSummary } from "./Checkout/orderSummary.js";
 import { renderPaymentSummary } from "./Checkout/paymentSummary.js";
 
 import { loadProducts, loadProductsFetch } from "../data/products.js";
-import { loadCart } from "../data/cart.js";
+import { loadCart, loadCartFetch } from "../data/cart.js";
 
 //import "../data/cart-class.js"
 
@@ -73,12 +73,7 @@ Promise.all([
 
 async function loadPage() {
 
-    await loadProductsFetch();
-    await new Promise((resolve) => {
-        loadCart(() => {
-            resolve();
-        });
-    })
+    await Promise.all([loadProductsFetch(), loadCartFetch()])
 
     renderOrderSummary();
     renderPaymentSummary();
